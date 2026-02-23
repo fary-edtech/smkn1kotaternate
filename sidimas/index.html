@@ -513,6 +513,32 @@
       });
   }
 
+function showLoadingTimer2(judul) {
+      let timerInterval;
+      Swal.fire({
+          title: judul,
+          html: 'Waktu tunggu: <b>10</b> detik...',
+          allowOutsideClick: false,
+          didOpen: () => {
+              Swal.showLoading();
+              const b = Swal.getHtmlContainer().querySelector('b');
+              let timeLeft = 10;
+              timerInterval = setInterval(() => {
+                  timeLeft--;
+                  if (timeLeft > 0) {
+                      if (b) b.textContent = timeLeft;
+                  } else {
+                      Swal.getHtmlContainer().innerHTML = 'Sedang proses, mohon tunggu sebentar...';
+                      clearInterval(timerInterval);
+                  }
+              }, 1000);
+          },
+          willClose: () => {
+              clearInterval(timerInterval);
+          }
+      });
+  }
+
   function formatNomorUrut(input) { let val = input.value; if(val === "") return; input.value = String(val).padStart(3, '0'); }
 
   /* --- AUTHENTICATION & SESSION --- */
@@ -646,7 +672,7 @@
     const fd = new FormData(e.target); const dataObj = Object.fromEntries(fd); 
     
     // --- INI BARIS TAMBAHANNYA ---
-    showLoadingTimer('Membuat Dokumen...');
+    showLoadingTimer2('Membuat Dokumen...');
 
     apiCall('generateDokumen', dataObj)
        .then(r=>{ 
