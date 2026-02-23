@@ -865,7 +865,7 @@ function showLoadingTimer2(judul) {
 
   /*--KHUSUS DEMO DINONAKTIFKAN EDIT DAN HAPUS--*/
   function loadUsers() { apiCall('getUsersList')
-  .then(r=>{ let h=''; r.forEach(u=>{ h+=`<tr><td>${u[0]}</td><td>******</td><td>${u[2]}</td><td>${u[3]}</td<td>
+  .then(r=>{ let h=''; r.forEach(u=>{ h+=`<tr><td>${u[0]}</td><td>******</td><td>${u[2]}</td><td>${u[3]}</td><td>
   <button class="btn btn-sm btn-warning" onclick="modalUser('edit','${u[0]}','${u[1]}','${u[2]}','${u[3]}')" title="Edit"><i class="fas fa-edit"></i></button>
   <button class="btn btn-sm btn-danger" onclick="delUser('${u[0]}')" title="Hapus"><i class="fas fa-trash"></i></button>
   </td></tr>`; }); $('#tbody-users').html(h); }); }
