@@ -6,6 +6,7 @@
     <title>SiBukInSTal-SMKN1KotaTernate</title>
     <link rel="icon" type="image/png" href="./logosibukinstal.png">
 
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
@@ -68,15 +69,28 @@ input, button, select, textarea {
     .mobile-toggle { display: none; margin-right: 15px; font-size: 1.5rem; cursor: pointer; color: var(--secondary-color); }
     .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; }
     
-    @media (max-width: 768px) {
-        .mobile-toggle { display: block; margin-top: 20px; }
-        .sidebar { position: fixed; top: 0; left: -260px; width: 260px; height: 100vh; z-index: 2001; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.2); padding-bottom: 100px; }
-        .sidebar.show { left: 0; }
-        .sidebar-overlay.show { display: block; }
-        .col-md-10 { width: 100%; padding: 0; }
-        .fab-refresh { width: 45px; height: 45px; font-size: 1.2rem; bottom: 40px; right: 20px; }
+   @media (max-width: 768px) {
+        /* Sembunyikan sidebar lama dan tombol garis tiga di HP */
+        .mobile-toggle { display: none !important; }
+        #mainSidebar { display: none !important; }
+        .sidebar-overlay { display: none !important; }
+        
+        /* Beri jarak atas dan bawah agar konten tidak tertutup bar menu */
+        .col-md-10 { padding-top: 70px !important; padding-bottom: 90px !important; width: 100%; }
+        
+        /* Atur ulang posisi tombol Refresh (Diatas tombol Scroll Top) */
+        .fab-refresh { width: 45px; height: 45px; font-size: 1.2rem; bottom: 140px !important; right: 20px; z-index: 1020; }
         .table-responsive { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     }
+
+    /* Styling Efek Menu Bawah HP */
+    .m-nav-item { color: #858796 !important; transition: all 0.3s; padding: 5px; flex-grow: 1;}
+    .m-nav-item.active { color: var(--primary-color) !important; transform: translateY(-3px); }
+    .m-nav-item:active { transform: scale(0.9); }
+    
+    /* Tombol Scroll Top (Dibawah Refresh) */
+    #btnScrollTop { position: fixed; right: 20px; bottom: 85px; z-index: 1020; width: 45px; height: 45px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 1.2rem; background: #6c757d; color: #fff; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: transform 0.2s; }
+    #btnScrollTop:active { transform: scale(0.9); }
 
     /* --- PASSWORD EYE --- */
     .pass-wrapper { position: relative; }
@@ -128,6 +142,43 @@ input, button, select, textarea {
   <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
   <div class="row">
+
+    <div id="mobileTopBar" class="d-md-none fixed-top bg-theme text-white shadow-sm px-3 d-flex justify-content-between align-items-center" style="height: 60px; z-index: 1030;">
+        <div class="fw-bold fs-5 text-truncate" style="max-width: 50%;"><i class="bi bi-book-half me-1"></i> SiBuk InSTal</div>
+        <div style="max-width: 45%;">
+            <select id="mobileSemester" class="form-select form-select-sm fw-bold border-0 text-primary shadow-sm" style="border-radius: 20px;" onchange="nav('nilai', null, this.value)">
+                <option value="" disabled selected>Pilih Smt</option>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="mobileBottomBar" class="d-md-none fixed-bottom bg-white shadow-lg d-flex justify-content-around align-items-center pb-2 pt-1" style="height: 70px; z-index: 1030; border-top: 1px solid #e3e6f0;">
+        <a href="javascript:void(0)" onclick="nav('dash', this)" class="text-center text-decoration-none m-nav-item active" data-target="dash">
+            <i class="bi bi-speedometer2 fs-4 d-block mb-1" style="line-height: 1;"></i><span style="font-size: 10px; font-weight: bold;">Dashboard</span>
+        </a>
+        <a href="javascript:void(0)" onclick="nav('siswa', this)" class="text-center text-decoration-none m-nav-item" data-target="siswa">
+            <i class="bi bi-people-fill fs-4 d-block mb-1" style="line-height: 1;"></i><span style="font-size: 10px; font-weight: bold;">Siswa</span>
+        </a>
+        <a href="javascript:void(0)" onclick="nav('mapel', this)" class="text-center text-decoration-none m-nav-item admin-only" data-target="mapel">
+            <i class="bi bi-book-half fs-4 d-block mb-1" style="line-height: 1;"></i><span style="font-size: 10px; font-weight: bold;">Mapel</span>
+        </a>
+        <a href="javascript:void(0)" onclick="nav('settings', this)" class="text-center text-decoration-none m-nav-item admin-only" data-target="settings">
+            <i class="bi bi-gear-fill fs-4 d-block mb-1" style="line-height: 1;"></i><span style="font-size: 10px; font-weight: bold;">Pengaturan</span>
+        </a>
+        <a href="javascript:void(0)" onclick="logout()" class="text-center text-decoration-none text-danger m-nav-item">
+            <i class="bi bi-box-arrow-right fs-4 d-block mb-1" style="line-height: 1;"></i><span style="font-size: 10px; font-weight: bold;">Logout</span>
+        </a>
+    </div>
+    
+    <button id="btnScrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="bi bi-arrow-up"></i></button>
+
+
     <div class="col-md-2 sidebar p-0 d-flex flex-column" id="mainSidebar">
         <div class="brand d-flex justify-content-between align-items-center">
             <span><i class="bi bi-book-half me-2"></i>SIBUK INSTAL</span>
@@ -524,7 +575,14 @@ function refreshPage() { if(curPage == 'siswa') loadSiswa(); else if(curPage == 
 
 function nav(page, el, param) { 
     curPage = page; 
+    
+    // Ubah status aktif di menu laptop/PC
     if(el) { $('.sidebar a').removeClass('active'); $(el).addClass('active'); } 
+    
+    // Ubah status aktif di menu HP
+    $('.m-nav-item').removeClass('active');
+    $(`.m-nav-item[data-target='${page}']`).addClass('active');
+    
     if($(window).width() < 768) { $('#mainSidebar').removeClass('show'); $('.sidebar-overlay').removeClass('show'); }
     $('[id^=view-]').addClass('hidden'); $('#view-'+page).removeClass('hidden'); 
     
@@ -536,6 +594,7 @@ function nav(page, el, param) {
     if(page=='nilai') { 
         curSmt=param; 
         $('#judulNilai').text('Input Nilai Semester '+param); 
+        $('#mobileSemester').val(param); // Sync dropdown HP
         
         const s = $('#selSiswa').empty().append('<option value="">-- Pilih --</option>'); 
         globalSiswa.forEach(x => s.append(`<option value="${x[0]}">${x[0]} - ${x[2]}</option>`)); 
@@ -1155,6 +1214,16 @@ const pengamatLoader = new MutationObserver((mutations) => {
 
 // Mulai mengawasi si Loader
 pengamatLoader.observe(elemenLoader, { attributes: true });
+
+// --- LOGIKA TOMBOL SCROLL TO TOP ---
+window.onscroll = function() {
+    // Munculkan tombol jika pengguna scroll lebih dari 100px ke bawah
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        document.getElementById("btnScrollTop").style.display = "flex";
+    } else {
+        document.getElementById("btnScrollTop").style.display = "none";
+    }
+};
 
 </script>
 </body>
