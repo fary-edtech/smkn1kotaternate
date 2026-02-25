@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>SiDiMAS-SMKN1KotaTernate</title>
     <link rel="icon" type="image/png" href="./logo.png">
 
@@ -18,6 +18,17 @@
   <style>
     :root { --main-color: #0d6efd; }
     body { background: #f0f2f5; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; display: block !important; }
+
+     /* Mencegah zoom cubitan layar dan efek membal saat mentok */
+html, body {
+    touch-action: pan-y; 
+    overscroll-behavior-y: none; }
+
+/* Mencegah zoom otomatis saat mengklik kolom input / form */
+input, button, select, textarea {
+    touch-action: manipulation; 
+    font-size: 16px !important; }
+
     .hide { display: none !important; }
     
     #view-login { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9000; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--main-color) 0%, #004085 100%); padding: 20px; overflow-y: auto; }
@@ -57,8 +68,13 @@
     .modal { z-index: 10050 !important; }
     
     @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    
     @media (max-width: 768px) { 
-        .sidebar { transform: translateX(-100%); } .sidebar.active { transform: translateX(0); } .main-content { margin-left: 0; width: 100%; padding: 15px; } 
+        /* Sembunyikan sidebar bawaan di HP */
+        .sidebar { display: none !important; } 
+        /* Beri ruang di bawah agar konten tidak tertutup menu navigasi */
+        .main-content { margin-left: 0; width: 100%; padding: 15px; padding-bottom: 90px; } 
+        
         /* HEADER HP */
         .header-kop { flex-direction: row; gap: 10px; padding: 10px; justify-content: space-between; }
         .kop-logo { height: 50px; width: 50px; }
@@ -66,7 +82,24 @@
         .txt-opd, .txt-alamat, .kop-text .small { display: none !important; }
         .txt-instansi { font-size: 0.7rem; }
         .txt-sekolah { font-size: 0.9rem; margin: 2px 0; }
+
+        /* GAYA MENU BAWAH (BOTTOM NAVIGATION) */
+        .mobile-bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-content: space-around; align-items: flex-end; padding: 8px 5px 12px 5px; z-index: 1050; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); border-top-left-radius: 20px; border-top-right-radius: 20px; }
+        .mobile-bottom-nav .nav-item-mobile { text-decoration: none; color: #a0aec0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; font-size: 0.65rem; font-weight: 600; cursor: pointer; flex: 1; transition: 0.3s; padding-bottom: 2px; }
+        .mobile-bottom-nav .nav-item-mobile i { font-size: 1.25rem; margin-bottom: 4px; transition: 0.3s; }
+        .mobile-bottom-nav .nav-item-mobile.active { color: var(--main-color); }
+        .mobile-bottom-nav .nav-item-mobile.active i { transform: translateY(-3px); }
+
+        /* TOMBOL BUAT SURAT KHUSUS (DI TENGAH) */
+        .mobile-bottom-nav .btn-buat-surat { position: relative; color: #198754 !important; }
+        .mobile-bottom-nav .btn-buat-surat .icon-wrapper { background: linear-gradient(135deg, #198754, #20c997); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 6px; border: 5px solid #f0f2f5; box-shadow: 0 -3px 10px rgba(25, 135, 84, 0.3); position: absolute; top: -45px; transition: 0.3s; }
+        .mobile-bottom-nav .btn-buat-surat.active .icon-wrapper { transform: scale(1.1); }
+        .mobile-bottom-nav .btn-buat-surat span { margin-top: 25px; }
+
+        /* POSISI TOMBOL SCROLL TOP DINAIIKAN KE ATAS MENU BAWAH */
+        .btn-scroll-top { bottom: 100px !important; right: 15px !important; }
     }
+
   </style>
 </head>
 <body>
@@ -92,9 +125,12 @@
   </div>
 
   <div id="view-dashboard" class="hide">
-    <div class="d-md-none bg-primary text-white p-3 d-flex align-items-center justify-content-between shadow-sm sticky-top">
-       <div class="fw-bold">SiDiMAS</div>
-       <button class="btn text-white p-0" onclick="$('.sidebar').toggleClass('active')"><i class="fas fa-bars fa-lg"></i></button>
+    <div class="d-md-none bg-primary text-white p-3 d-flex align-items-center justify-content-between shadow-sm sticky-top" style="z-index: 1040;">
+       <div class="fw-bold fs-5">SiDiMAS</div>
+       <div class="admin-only d-flex gap-3">
+           <a onclick="nav('users', this)" class="text-white" title="Manajemen User"><i class="fas fa-users-cog fa-lg"></i></a>
+           <a onclick="nav('setting', this)" class="text-white" title="Pengaturan"><i class="fas fa-tools fa-lg"></i></a>
+       </div>
     </div>
 
     <nav class="sidebar">
@@ -284,7 +320,7 @@
                   <form onsubmit="simpanSetting(event)" autocomplete="off">
                       <h6 class="text-primary border-bottom pb-2">Identitas Sekolah</h6>
                       <div class="row mb-3"><div class="col-6"><label>Logo Instansi</label><input type="file" id="fLogo1" class="form-control" accept="image/*"></div><div class="col-6"><label>Logo Sekolah</label><input type="file" id="fLogo2" class="form-control" accept="image/*"></div></div>
-                      <div class="row mb-2"><div class="col"><label>Nama Pemerintahan</label><input name="namaInstansi" id="inInstansi" class="form-control" placeholder="PEMERINTAH PROVINSI..."></div><div class="col"><label>Nama Dinas/OPD (boleh dikosongkan)</label><input name="namaOpd" id="inOpd" class="form-control" placeholder="DINAS PENDIDIKAN"></div></div>
+                      <div class="row mb-2"><div class="col"><label>Nama Pemerintahan</label><input name="namaInstansi" id="inInstansi" class="form-control" placeholder="PEMERINTAH PROVINSI..."></div><div class="col"><label>Nama Dinas/OPD (boleh dikosongkan)</label><input name="namaOpd" id="inOpd" class="form-control" placeholder="ex. DINAS PENDIDIKAN......"></div></div>
                       <label>Nama Sekolah</label><input name="namaSekolah" id="inSekolah" class="form-control mb-2 fw-bold">
                       <label>Alamat Lengkap</label><input name="alamatSekolah" id="inAlamat" class="form-control mb-2">
                       <div class="row mb-3"><div class="col"><label>Email</label><input name="emailSekolah" id="inEmail" class="form-control"></div><div class="col"><label>Website</label><input name="webSekolah" id="inWeb" class="form-control"></div></div>
@@ -301,6 +337,29 @@
       </div>
       <div class="footer">&copy; 2026 SiDiMAS | All Right Reserved. <br> <a href="javascript:void(0)" onclick="modalPrivasi()">Kebijakan Privasi</a> | Created by : <a href='https://www.fary-edtech.my.id' target="_blank" style="color:blue">Fary EdTech</a></div>
     </div>
+
+    <div class="mobile-bottom-nav d-md-none">
+          <a class="nav-item-mobile active" onclick="nav('home', this)">
+              <i class="fas fa-chart-pie"></i>
+              <span>Dashboard</span>
+          </a>
+          <a class="nav-item-mobile" onclick="nav('masuk', this)">
+              <i class="fas fa-inbox"></i>
+              <span>Srt Masuk</span>
+          </a>
+          <a class="nav-item-mobile btn-buat-surat" onclick="nav('buat', this)">
+              <div class="icon-wrapper"><i class="fas fa-magic"></i></div>
+              <span>Buat Surat</span>
+          </a>
+          <a class="nav-item-mobile" onclick="nav('keluar', this)">
+              <i class="fas fa-paper-plane"></i>
+              <span>Srt Keluar</span>
+          </a>
+          <a class="nav-item-mobile text-danger" onclick="doLogout()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+          </a>
+      </div>
   </div>
 
   <div class="modal fade" id="modalSurat" tabindex="-1">
@@ -513,7 +572,7 @@
       });
   }
 
-function showLoadingTimer2(judul) {
+  function showLoadingTimer2(judul) {
       let timerInterval;
       Swal.fire({
           title: judul,
@@ -699,15 +758,25 @@ function showLoadingTimer2(judul) {
   /* --- NAVIGATION & TABLES --- */
   function nav(p, el) { 
     $('.modal-backdrop').remove(); $('body').removeClass('modal-open'); $('body').css('overflow', 'auto'); Swal.close();
-    $('.page-view').addClass('hide'); $('#page-'+p).removeClass('hide'); $('.nav-link').removeClass('active'); if(el) $(el).addClass('active'); else $(`.nav-link[onclick="nav('${p}', this)"]`).addClass('active');
-    if($(window).width()<768) $('.sidebar').removeClass('active'); 
+    $('.page-view').addClass('hide'); $('#page-'+p).removeClass('hide'); 
     
+    /* Bagian yang diubah: Reset active class untuk desktop dan mobile */
+    $('.nav-link, .nav-item-mobile').removeClass('active'); 
+    if(el) {
+        $(el).addClass('active'); 
+    } else { 
+        $(`.nav-link[onclick="nav('${p}', this)"]`).addClass('active');
+        $(`.nav-item-mobile[onclick="nav('${p}', this)"]`).addClass('active');
+    }
+    
+    // Sisa fungsinya tetap sama...
     if(p==='home') { loadInitData(); loadDashboardStats(); } 
     if(p==='masuk') refreshTable('masuk'); 
     if(p==='keluar') refreshTable('keluar'); 
     if(p==='users') loadUsers(); 
     if(p==='buat') { loadAutoNumber(); }
   }
+    
   
   function loadDashboardStats() {
       $('#chartBulanan').empty(); $('#chartJenis').empty();
