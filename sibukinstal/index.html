@@ -777,15 +777,15 @@ async function cetakPDF(nis) {
         <div style="font-family: 'Arial', sans-serif; font-size: 11pt; color: #000; background: #fff;">
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
-              <td width="15%" align="center" style="vertical-align: middle;">${imgInstansi ? `<img src="${imgInstansi}" style="width: 2cm; max-width: 100%; object-fit: contain;">` : ''}</td>
-                <td width="70%" style="text-align: center; line-height: 1.5;">
+              <td width="12%" align="center" style="vertical-align: middle;">${imgInstansi ? `<img src="${imgInstansi}" style="width: 2cm; max-width: 100%; object-fit: contain;">` : ''}</td>
+                <td width="75%" style="text-align: center; line-height: 1.3;">
                 <div style="font-size:14pt; font-weight:bold; text-transform:uppercase;">${globalConf.nama_instansi || ''}</div>
                  ${globalConf.opd_dinas ? `<div style="font-size:14pt; font-weight:bold; text-transform:uppercase;">${globalConf.opd_dinas}</div>` : ''}
                 <div style="font-size:17pt; font-weight:bold; text-transform:uppercase;">${globalConf.nama_sekolah || ''}</div>
                 <div style="font-size:9pt;">${globalConf.alamat_sekolah || ''}</div>
-                <div style="font-size:9pt;">Telp: ${globalConf.telp_sekolah || '-'} | Email: ${globalConf.email_sekolah || '-'} | Web: ${globalConf.web_sekolah || '-'}</div>
+                <div style="font-size:8pt;">Telp: ${globalConf.telp_sekolah || '-'}  |  Email: ${globalConf.email_sekolah || '-'}  |  Web: ${globalConf.web_sekolah || '-'}</div>
                </td>
-            <td width="15%" align="center" style="vertical-align: middle;">${imgSekolah ? `<img src="${imgSekolah}" style="width: 2cm; max-width: 100%; object-fit: contain;">` : ''}</td>
+            <td width="13%" align="center" style="vertical-align: middle;">${imgSekolah ? `<img src="${imgSekolah}" style="width: 2cm; max-width: 100%; object-fit: contain;">` : ''}</td>
            </tr>
             </table>
             <div style="border-bottom: 3px double #000; margin: 10px 0 20px 0;"></div>
