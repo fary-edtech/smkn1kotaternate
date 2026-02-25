@@ -320,29 +320,29 @@ input, button, select, textarea {
                   <form onsubmit="simpanSetting(event)" autocomplete="off">
                       <h6 class="text-primary border-bottom pb-2">Identitas Sekolah</h6>
                       <div class="row mb-2">
-                      <div class="col-6"><label>Logo Instansi</label><input type="file" id="fLogo1" class="form-control" accept="image/*"></div>
-                      <div class="col-6"><label>Logo Sekolah</label><input type="file" id="fLogo2" class="form-control" accept="image/*"></div></div>
+                      <div class="col-md-6"><label class="text-success">Logo Instansi</label><input type="file" id="fLogo1" class="form-control" accept="image/*"></div>
+                      <div class="col-md-6"><label class="text-success">Logo Sekolah</label><input type="file" id="fLogo2" class="form-control" accept="image/*"></div></div>
                       <div class="row mb-2">
-                      <div class="col-md-6"><label>Nama Instansi</label><input name="namaInstansi" id="inInstansi" class="form-control" placeholder="PEMERINTAH PROVINSI..."></div>
-                      <div class="col-md-6"><label>Nama Dinas/OPD (boleh dikosongkan)</label><input name="namaOpd" id="inOpd" class="form-control" placeholder="ex. DINAS PENDIDIKAN......"></div></div>
-                      <label>Nama Sekolah</label><input name="namaSekolah" id="inSekolah" class="form-control mb-2 fw-bold">
-                      <label>Alamat Lengkap</label><input name="alamatSekolah" id="inAlamat" class="form-control mb-2">
+                      <div class="col-md-6"><label class="text-success">Nama Instansi</label><input name="namaInstansi" id="inInstansi" class="form-control" placeholder="PEMERINTAH PROVINSI..."></div>
+                      <div class="col-md-6"><label class="text-success">Nama Dinas/OPD (boleh dikosongkan)</label><input name="namaOpd" id="inOpd" class="form-control" placeholder="ex. DINAS PENDIDIKAN......"></div></div>
+                      <label class="text-success">Nama Sekolah</label><input name="namaSekolah" id="inSekolah" class="form-control mb-2 fw-bold">
+                      <label class="text-success">Alamat Lengkap</label><input name="alamatSekolah" id="inAlamat" class="form-control mb-2">
 
                       <div class="row mb-2">
-                      <div class="col"><label>Email</label><input name="emailSekolah" id="inEmail" class="form-control"></div>
-                      <div class="col"><label>Website</label><input name="webSekolah" id="inWeb" class="form-control"></div></div>
+                      <div class="col-md-6"><label class="text-success">Email</label><input name="emailSekolah" id="inEmail" class="form-control"></div>
+                      <div class="col-md-6"><label class="text-success">Website</label><input name="webSekolah" id="inWeb" class="form-control"></div></div>
 
                       <div class="mb-3"><label class="fw-bold text-success">Kode Lembaga</label><input class="form-control border-success" list="listLembaga" name="kodeLembaga" id="inKodeLembaga" placeholder="Ketik manual atau pilih dari daftar..."><datalist id="listLembaga"></datalist></div>
                       
                       <h6 class="text-primary border-bottom pb-2 mt-4">Data Kepala Sekolah</h6>
                       <div class="row mb-2">
-                      <div class="col-md-6"><label>Nama Lengkap</label><input name="kepsekNama" id="inKepsekNama" class="form-control"></div>
-                      <div class="col-md-6"><label>NIP</label><input name="kepsekNip" id="inKepsekNip" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')"></div></div>
+                      <div class="col-md-6"><label class="text-success">Nama Lengkap</label><input name="kepsekNama" id="inKepsekNama" class="form-control"></div>
+                      <div class="col-md-6"><label class="text-success">NIP</label><input name="kepsekNip" id="inKepsekNip" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')"></div></div>
                       <div class="row mb-2">
-                      <div class="col-md-6"><label>Pangkat/Golongan</label><select name="kepsekPangkat" id="inKepsekPangkat" class="form-select"><option>Pengatur Muda (II/a)</option><option>Pengatur Muda Tingkat I (II/b)</option><option>Pengatur (II/c)</option><option>Pengatur Tingkat I (II/d)</option><option>Penata Muda (III/a)</option><option>Penata Muda Tingkat I (III/b)</option><option>Penata (III/c)</option><option>Penata Tingkat I (III/d)</option><option>Pembina (IV/a)</option><option>Pembina Tingkat I (IV/b)</option><option>Pembina Utama Muda (IV/c)</option><option>Pembina Utama Madya (IV/d)</option><option>Pembina Utama (IV/e)</option></select></div>
-                      <div class="col-md-6"><label>Kota/Tempat TTD Surat</label><input name="kotaSurat" id="inKotaSurat" class="form-control"></div></div>
+                      <div class="col-md-6"><label class="text-success">Pangkat/Golongan</label><select name="kepsekPangkat" id="inKepsekPangkat" class="form-select"><option>Pengatur Muda (II/a)</option><option>Pengatur Muda Tingkat I (II/b)</option><option>Pengatur (II/c)</option><option>Pengatur Tingkat I (II/d)</option><option>Penata Muda (III/a)</option><option>Penata Muda Tingkat I (III/b)</option><option>Penata (III/c)</option><option>Penata Tingkat I (III/d)</option><option>Pembina (IV/a)</option><option>Pembina Tingkat I (IV/b)</option><option>Pembina Utama Muda (IV/c)</option><option>Pembina Utama Madya (IV/d)</option><option>Pembina Utama (IV/e)</option></select></div>
+                      <div class="col-md-6"><label class="text-success">Kota/Tempat TTD Surat</label><input name="kotaSurat" id="inKotaSurat" class="form-control"></div></div>
                       <h6 class="text-primary border-bottom pb-2 mt-4">Tampilan</h6>
-                      <label>Warna Tema</label><input type="color" name="warnaAplikasi" id="inWarna" class="form-control form-control-color w-100 mb-3">
+                      <label class="text-success">Warna Tema</label><input type="color" name="warnaAplikasi" id="inWarna" class="form-control form-control-color w-100 mb-3">
                       <button class="btn btn-primary w-100"><i class="fas fa-save"></i> SIMPAN PENGATURAN</button>
                   </form>
               </div>
