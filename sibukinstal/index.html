@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>SiBukInSTal-SMKN1KotaTernate</title>
     <link rel="icon" type="image/png" href="./logosibukinstal.png">
 
@@ -13,8 +13,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <style>
+    
     :root { --primary-color: #4e73df; --secondary-color: #858796; }
     body { background: #f0f2f5; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+    
+    /* Mencegah zoom cubitan layar dan efek membal saat mentok */
+html, body {
+    touch-action: pan-y; 
+    overscroll-behavior-y: none; }
+
+/* Mencegah zoom otomatis saat mengklik kolom input / form */
+input, button, select, textarea {
+    touch-action: manipulation; 
+    font-size: 16px !important; }
+
     
     /* LOGIN & THEME */
     #loginPage { min-height: 100vh; background: var(--primary-color); background-image: linear-gradient(135deg, var(--primary-color) 0%, #000 100%); display:flex; align-items:center; justify-content:center; padding: 20px; }
@@ -235,9 +247,13 @@
                             <h5 class="text-primary fw-bold mb-4 border-bottom pb-2">Identitas & Tema</h5>
                             <form onsubmit="saveSettings(event)">
                                 <div class="row g-3">
-                                    <div class="col-md-6"><label class="fw-bold small">Nama Instansi</label><input id="setInstansi" class="form-control"></div>
-                                    <div class="col-md-6"><label class="fw-bold small">Nama Sekolah</label><input id="setNama" class="form-control"></div>
+                                    <div class="col-md-6"><label class="fw-bold small">Nama Instansi</label><input id="setInstansi" class="form-control" placeholder="PEMERINTAH ............"></div>
+                                    <div class="col-md-6"><label class="fw-bold small">OPD / Dinas (Boleh dikosongkan)</label><input id="setOpd" class="form-control" placeholder="DINAS PENDIDIKAN........"></div>
+                                    <div class="col-md-12"><label class="fw-bold small">Nama Sekolah</label><input id="setNama" class="form-control"></div>
                                     <div class="col-12"><label class="fw-bold small">Alamat Lengkap</label><textarea id="setAlamat" class="form-control" rows="2"></textarea></div>
+                                    <div class="col-md-4"><label class="fw-bold small">No. Telp Sekolah</label><input id="setTelp" class="form-control"></div>
+                                    <div class="col-md-4"><label class="fw-bold small">Email Sekolah</label><input id="setEmail" class="form-control" placeholder="contoh: email@gmail.com"></div>
+                                    <div class="col-md-4"><label class="fw-bold small">Website Sekolah</label><input id="setWeb" class="form-control" placeholder="contoh: sman19nusantara.sch.id"></div>
                                     <div class="col-md-6"><label class="fw-bold small">Kepala Sekolah</label><input id="setKepsek" class="form-control"></div>
                                     <div class="col-md-6"><label class="fw-bold small">NIP Kepala Sekolah</label><input id="setNip" class="form-control"></div>
                                     
@@ -283,7 +299,7 @@
                                         <i class="bi bi-eye-slash"></i>
                                     </span>
                                 </div>
-                               <!-- <button type="submit" class="btn btn-sm btn-danger w-100 fw-bold">Update Admin</button> -->
+                               <button type="submit" class="btn btn-sm btn-danger w-100 fw-bold">Update Admin</button>
                             </form>
                             <form onsubmit="updateAccount(event, 'wakakurikulum')" class="p-3 bg-light border rounded">
                                 <h6 class="fw-bold small text-uppercase">Waka Kurikulum</h6>
@@ -294,7 +310,7 @@
                                         <i class="bi bi-eye-slash"></i>
                                     </span>
                                 </div>
-                               <!-- <button type="submit" class="btn btn-sm btn-success w-100 fw-bold">Update Waka</button> -->
+                               <button type="submit" class="btn btn-sm btn-success w-100 fw-bold">Update Waka</button>
                             </form>
                         </div>
                     </div>
@@ -427,7 +443,7 @@
 // ==========================================
 // Ganti URL di bawah ini dengan URL Web App Google Apps Script kamu yang sudah dideploy baru!
 const API_URL = "https://script.google.com/a/macros/admin.sma.belajar.id/s/AKfycbzJwiJZJO58oTIVh3PtdYsOjTkIqhDTGCuKW9hzZDTye6QL24l01Yq2ZALg3LLRmAI1ng/exec"; 
-    
+
 let globalConf = {}; // Menampung pengaturan sekolah
 let globalSiswa=[], curSmt=1, cropper, cropTarget, curPage='dash';
 let globalMapel = []; // <--- KANTONG MAPEL
@@ -704,8 +720,10 @@ async function cetakPDF(nis) {
                     <td width="15%" align="center">${imgInstansi ? `<img src="${imgInstansi}" style="width: 2.5cm;">` : ''}</td>
                     <td width="70%" style="text-align: center; line-height: 1.2;">
                         <div style="font-size:14pt; font-weight:bold; text-transform:uppercase;">${globalConf.nama_instansi || ''}</div>
+                        ${globalConf.opd_dinas ? `<div style="font-size:14pt; font-weight:bold; text-transform:uppercase;">${globalConf.opd_dinas}</div>` : ''}
                         <div style="font-size:17pt; font-weight:bold; text-transform:uppercase;">${globalConf.nama_sekolah || ''}</div>
                         <div style="font-size:9pt;">${globalConf.alamat_sekolah || ''}</div>
+                        <div style="font-size:9pt;">Telp: ${globalConf.telp_sekolah || '-'} | Email: ${globalConf.email_sekolah || '-'} | Web: ${globalConf.web_sekolah || '-'}</div>
                     </td>
                     <td width="15%" align="center">${imgSekolah ? `<img src="${imgSekolah}" style="width: 2.5cm;">` : ''}</td>
                 </tr>
@@ -798,8 +816,10 @@ async function cetakTranskrip() {
                     <td width="20%" align="right">${imgInstansi ? `<img src="${imgInstansi}" style="width: 2.5cm;">` : ''}</td>
                     <td width="60%" style="text-align: center; line-height: 1.2;">
                         <div style="font-size:12pt; font-weight:bold; text-transform:uppercase;">${globalConf.nama_instansi || ''}</div>
+                        ${globalConf.opd_dinas ? `<div style="font-size:12pt; font-weight:bold; text-transform:uppercase;">${globalConf.opd_dinas}</div>` : ''}
                         <div style="font-size:16pt; font-weight:bold; text-transform:uppercase;">${globalConf.nama_sekolah || ''}</div>
                         <div style="font-size:9pt;">${globalConf.alamat_sekolah || ''}</div>
+                        <div style="font-size:9pt;">Telp: ${globalConf.telp_sekolah || '-'} | Email: ${globalConf.email_sekolah || '-'} | Web: ${globalConf.web_sekolah || '-'}</div>
                     </td>
                     <td width="20%" align="left">${imgSekolah ? `<img src="${imgSekolah}" style="width: 2.5cm;">` : ''}</td>
                 </tr>
@@ -945,6 +965,7 @@ function loadSettings() {
         if(s.nama_sekolah) { $('#lblSekolah').text(s.nama_sekolah); $('#dashName').text(s.nama_sekolah); $('#footSchoolName').text(s.nama_sekolah); $('#setNama').val(s.nama_sekolah); } 
         if(s.alamat_sekolah) { $('#dashAddr').text(s.alamat_sekolah); $('#setAlamat').val(s.alamat_sekolah); } 
         $('#setKepsek').val(s.nama_kepsek); $('#setNip').val(s.nip_kepsek); $('#setTheme').val(s.theme_color || '#4e73df'); 
+        $('#setOpd').val(s.opd_dinas || ''); $('#setTelp').val(s.telp_sekolah || ''); $('#setEmail').val(s.email_sekolah || ''); $('#setWeb').val(s.web_sekolah || '');
         
         if(s.logo_instansi) callAPI('getImage', {id: s.logo_instansi}).then(b=>{ if(b){ $('#loginLogoInstansi').attr('src',b).removeClass('hidden');$('#prevLogoInstansi').attr('src',b).removeClass('hidden'); } }); 
         $('#logo_instansi').val(s.logo_instansi); 
@@ -965,8 +986,12 @@ function saveSettings(e) {
         nip_kepsek: $('#setNip').val(), 
         logo_instansi: $('#logo_instansi').val(), 
         logo_sekolah: $('#logo_sekolah').val(), 
-        theme_color: $('#setTheme').val() 
-    }; 
+        theme_color: $('#setTheme').val(),
+        opd_dinas: $('#setOpd').val(),
+        telp_sekolah: $('#setTelp').val(),
+        email_sekolah: $('#setEmail').val(),
+        web_sekolah: $('#setWeb').val()
+    };
     callAPI('saveSettings', d).then(r => { 
         $('#loader').addClass('hidden'); 
         showCoolAlert('Tersimpan','','success'); 
