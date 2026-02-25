@@ -99,7 +99,7 @@ input, button, select, textarea {
                 <img id="loginLogoSekolah" class="floating-logo hidden" style="animation-delay: 0.5s;">
             </div>
             <h6 class="text-uppercase fw-bold text-secondary mb-0 small" id="lblInstansi">PEMERINTAH...LOADING...</h6>
-            <h6 class="text-uppercase fw-bold text-secondary mb-0 small" id="setOpd"></h6>
+            <h6 class="text-uppercase fw-bold text-secondary mb-0 small" id="lblOpdLogin">LOADING...</h6>
             <h5 class="text-uppercase fw-bold text-dark mb-2" id="lblSekolah">NAMA SEKOLAH</h5>
              <center>
                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgpnOpoQv4zKvXKWgVq_tFB5gKYVbjd8i-fgApUH-b36SrMAaqRX8V7ZFU3bU60gt8I8d77wlTeRI_F8UdMGaZl26EvQw6bBiwtFAygUMiaXSM7tDN-xiPl6r3RguMlwQ3N4BQ-fWaJ62_b318672r9c-iPiGHLhd9y4QHDPBc9SoFpTPwdDp0rkgLf6B4E/s100/Logo%20SiBuk%20InSTal.png" class="width:50px">
@@ -964,7 +964,7 @@ function loadSettings() {
         
         if(s.theme_color) document.documentElement.style.setProperty('--primary-color', s.theme_color); 
         if(s.nama_instansi) { $('#lblInstansi').text(s.nama_instansi); $('#dashInstansi').text(s.nama_instansi); $('#setInstansi').val(s.nama_instansi); } 
-        if(s.opd_dinas) { $('#lblOpd').val(s.opd_dinas || ''); $('#dashOpd').text(s.opd_dinas || '');  $('#setOpd').val(s.opd_dinas || ''); } 
+        if(s.opd_dinas) { $('#lblOpdLogin').text(s.opd_dinas); } else { $('#lblOpdLogin').text(''); }
         if(s.nama_sekolah) { $('#lblSekolah').text(s.nama_sekolah); $('#dashName').text(s.nama_sekolah); $('#footSchoolName').text(s.nama_sekolah); $('#setNama').val(s.nama_sekolah); } 
         if(s.alamat_sekolah) { $('#dashAddr').text(s.alamat_sekolah); $('#setAlamat').val(s.alamat_sekolah); } 
         $('#setKepsek').val(s.nama_kepsek); $('#setNip').val(s.nip_kepsek); $('#setTheme').val(s.theme_color || '#4e73df'); 
