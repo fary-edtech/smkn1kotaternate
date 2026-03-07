@@ -1,22 +1,22 @@
 // Ganti nama cache ini sesuai nama aplikasimu (bebas)
-const CACHE_NAME = 'app-sidimas-auto'; 
+const CACHE_NAME = 'app-sidimas-auto-v2'; 
 const urlsToCache = [
-  './',
-  './index.html',
-  './logo.png',
-  './manifest.json'
+  '/',
+  'index.html',
+  'logo.png',
+  'manifest.json'
 ];
 
 // Tahap 1: Install & Simpan file ke memori HP pertama kali
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
+      console.log('Opened cache');
       return cache.addAll(urlsToCache);
     })
   );
   self.skipWaiting();
 });
-
 // Tahap 2: Hapus cache lama (jika ada) dan aktifkan
 self.addEventListener('activate', event => {
   event.waitUntil(
