@@ -1,16 +1,18 @@
 // Ganti nama cache ini sesuai nama aplikasimu (bebas)
-const CACHE_NAME = 'app-sibukinstal-auto'; 
+const CACHE_NAME = 'app-sibukinstal-auto-v2'; // Saya tambahkan v2 agar cache lama tertimpa
+
 const urlsToCache = [
-  './',
-  './index.html',
-  './logo-baru.png',
-  './manifest.json'
+  '/',
+  'index.html',
+  'logo-baru.png',
+  'manifest.json'
 ];
 
 // Tahap 1: Install & Simpan file ke memori HP pertama kali
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
+      console.log('Opened cache');
       return cache.addAll(urlsToCache);
     })
   );
